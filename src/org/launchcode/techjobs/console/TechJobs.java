@@ -1,17 +1,16 @@
 package org.launchcode.techjobs.console;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Created by LaunchCode
  */
 public class TechJobs {
 
-    private static Scanner in = new Scanner(System.in);
+    private static final Scanner in = new Scanner(System.in);
 
     public static void main (String[] args) {
+
 
         // Initialize our field map with key/name pairs
         HashMap<String, String> columnChoices = new HashMap<>();
@@ -59,15 +58,17 @@ public class TechJobs {
                 // What is their search term?
                 System.out.println("\nSearch term: ");
                 String searchTerm = in.nextLine();
-
+//                searchTerm.equalsIgnoreCase("a-zA-Z");;
+                searchTerm = searchTerm.toLowerCase();
                 if (searchField.equals("all")) {
-                    System.out.println("Search all fields not yet implemented.");
+                    JobData.findByValue(searchTerm);
+
                 } else {
                     printJobs(JobData.findByColumnAndValue(searchField, searchTerm));
                 }
             }
-        }
     }
+}
 
     // ﻿Returns the key of the selected item from the choices Dictionary
     private static String getUserSelection(String menuHeader, HashMap<String, String> choices) {
@@ -78,19 +79,19 @@ public class TechJobs {
 
         // Put the choices in an ordered structure so we can
         // associate an integer with each one
-        Integer i = 0;
-        for (String choiceKey : choices.keySet()) {
-            choiceKeys[i] = choiceKey;
-            i++;
-        }
+                Integer i = 0;
+                for (String choiceKey : choices.keySet()) {
+                    choiceKeys[i] = choiceKey;
+                    i++;
+                }
 
-        do {
+                do {
 
-            System.out.println("\n" + menuHeader);
+                    System.out.println("\n" + menuHeader);
 
-            // Print available choices
-            for (Integer j = 0; j < choiceKeys.length; j++) {
-                System.out.println("" + j + " - " + choices.get(choiceKeys[j]));
+                    // Print available choices
+                    for (Integer j = 0; j < choiceKeys.length; j++) {
+                        System.out.println("" + j + " - " + choices.get(choiceKeys[j]));
             }
 
             choiceIdx = in.nextInt();
@@ -110,7 +111,17 @@ public class TechJobs {
 
     // Print a list of jobs
     private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
-
-        System.out.println("printJobs is not implemented yet");
+        for(int i = 0; i < 6; i++){
+            for(HashMap<String, String> j : someJobs) {
+                if (j.containsKey("position type")) {
+                    for (Map.Entry<String, String> k : j.entrySet()) {
+                        System.out.println(k.getKey() + " : " + k.getValue());
+                    }
+                    System.out.println("*********");
+                } else {
+                    System.out.println("printJobs is not implemented yet");
+                }
+            }
+        }
     }
 }
